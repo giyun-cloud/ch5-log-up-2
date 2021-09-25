@@ -19,4 +19,25 @@ export default class App {
 
     setInterval()
   }
+
+  private onSubmit = (e: Event) => {
+    e.preventDefault();
+
+    if(!this.active) return;
+
+    const submitData: AnyObject = this.fields
+      .map(field => ({[field.name]: field.value}))
+      .reduce((a,b) => ({...a,...b}), {});
+
+    console.log(submitData);
+  }
+
+  public render = () => {
+    this.container.innerHTML = this.template(this.data);
+    this.fields.forEach(field => {
+      field.render(true);
+    });
+
+    this.container.addEventListener('submit', this.onSubmit)
+  }
 }
